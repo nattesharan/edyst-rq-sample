@@ -1,13 +1,23 @@
 from flask import Flask,request,render_template,flash
-from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 from redis import Redis
 from rq import Queue
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.sqlite3'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+engine = create_engine('sqlite:///test.db', convert_unicode=True)
+db_session = scoped_session(sessionmaker(autocommit=False,
+                                         autoflush=False,
+                                         bind=engine))
+Base = declarative_base()
+Base.query = db_session.query_property()
 app.secret_key = 'TESTAPP'
-db = SQLAlchemy(app)
 q = Queue(connection=Redis())
+
+def init_db():
+    from models import *
+    Base.metadata.create_all(bind=engine)
+
 @app.route('/index',methods=['GET','POST'])
 def submit_url():
     if request.method == 'GET':
