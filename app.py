@@ -14,7 +14,7 @@ def submit_url():
         return render_template('form.html')
     if request.method ==  'POST':
         from tasks import save_summary
-        if request.form:
+        if request.form['url']:
             task = q.enqueue(save_summary, args=(request.form['url'],), result_ttl=5000)
             print task.get_id()
             flash('Success')
