@@ -1,4 +1,4 @@
-from flask import Flask,request,render_template,flash
+from flask import Flask,request,render_template,flash,jsonify
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
@@ -45,7 +45,7 @@ def get_results(job_key):
     job = Job.fetch(job_key, connection=conn)
     print job.is_finished
     if job.is_finished:
-        return str(job.result), 200
+        return jsonify(job.result), 200
     else:
         return "Failed", 202
 
