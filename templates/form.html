@@ -1,0 +1,17 @@
+<html>
+  <body>
+    <form method="POST" action="/index">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="flashes list-unstyled alert alert-danger">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+      <input type="text" name="url">
+      <input type="submit" value="Submit">
+    </form>
+  </body>
+</html>

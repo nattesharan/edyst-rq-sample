@@ -1,0 +1,16 @@
+<table style="border: 1px solid black;width: 100%;">
+    <thead>
+        <tr>
+            <td style="border-right: 1px solid black;border-bottom: 1px solid black;">Sl.no</td>
+            <td style="border-bottom: 1px solid black;border-right: 1px solid black">Url</td>
+            <td style="border-bottom: 1px solid black;">Count</td>
+        </tr>
+    </thead>
+    {% for summary in summary_list %}
+    <tr>
+        <td style="border-right: 1px solid black;border-bottom: 1px solid black;">{{ summary.id }}</td>
+        <td style="border-bottom: 1px solid black;border-right: 1px solid black"><a href="{{summary.url}}" target="_blank">{{ summary.url }}</a></td>
+        <td style="border-bottom: 1px solid black;">{{ summary.word_count }}</td>
+    </tr>
+    {% endfor %}
+</table>
